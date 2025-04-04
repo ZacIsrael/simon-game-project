@@ -5,6 +5,15 @@ let buttonColors = ["red", "blue", "green", "yellow"];
 // array that stores the game's pattern (sequence of colors)
 let gamePattern = [];
 
+// array that stores the user's pattern (sequence of colors)
+let userPattern = [];
+
+// keeps track of the current level of the game
+let gameLevel = 1;
+
+// game title text
+let levelText = $('#level-title');
+
 function nextSequence() {
     // Inside the new function generate a new random number between 
     // 0 and 3, and store it in a variable called
@@ -18,6 +27,59 @@ function nextSequence() {
     // adds the randomly selected color to the end of the gamePattern array
     gamePattern.push(randomChosenColor);
     console.log('gamePattern = ', gamePattern);
+}
 
+function isUserCorrect(){
 
+    let gameLength = gamePattern.length
+    // if the userPattern array is the same as the gamePattern array, return true
+    if(userPattern.length !== gameLength){
+        return false;
+    } else {
+        // both arrays are the same length, so there is a chance that the user got the sequence correct
+        for(let i = 0; i < gameLength; i++){
+            if (userPattern[i] !== gamePattern[i]){
+                // element at the i index in each array is not the same; return false; user is incorrect
+                return false;
+            }
+        }
+        // both arrays are equal; return true
+        return true;
+    }
+}
+
+// retrieves the 4 buttons
+let colorButtons = $('.btn');
+
+// iterate through the 4 buttons 
+for(let i = 0; i < colorButtons.length; i++){
+
+    colorButtons[i].addEventListener("click", function(){
+        // button has been clicked by the user
+        let currBtn = this; 
+
+        // button color is stored as its id
+        let col = currBtn.id;
+        console.log('currBtn = ', currBtn);
+        console.log('currBtn.id = ', currBtn.id);
+
+        // add the color of the button to the user array
+        userPattern.push(col);
+
+        // compare the userPattern array to the gamePatter array
+        let result = isUserCorrect();
+        if(result){
+            // continue on with the game, up date level in h1 tag with id = 'level-title'
+            // increment the gameLevel
+            gameLevel++;
+            levelText.text(`Level ${gameLevel}`);
+            console.log('continue playing');
+        } else {
+            // end the game, change text of h1 tag with id = 'level-title'
+            levelText.text('Game Over, Press Any Key to Restart');
+            // reset the gameLevel back to 1
+            gameLevel = 1;
+            console.log('game over');
+        }
+    })
 }
