@@ -118,7 +118,12 @@ for (let i = 0; i < colorButtons.length; i++) {
         // the values of j & the user array
         j = 0;
         userPattern = [];
-        nextSequence();
+        // add a 1 second delay so the user can clearly see what the next color is
+        setTimeout(function(){
+            console.log('Delay for better user experience.');
+            nextSequence();
+        }, 1000)
+       
       }
     } else {
       console.log("game over!");
@@ -161,11 +166,11 @@ function animateButton(color) {
     // add class (in styles.css) to the button
     btnClicked.addClass("pressed");
 
-    // wait 0.45 seconds
+    // wait 0.25 seconds
     setTimeout(function () {
       // then remove the "pressed" class so that the button goes back to its original state
       btnClicked.removeClass("pressed");
-    }, 45);
+    }, 250);
   }
 }
 
