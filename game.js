@@ -82,6 +82,8 @@ for (let i = 0; i < colorButtons.length; i++) {
       $("#level-title").text() === gameOverText ||
       $("#level-title").text() === startText
     ) {
+      // animate the body's background
+      animateBackground();
       // play bad sound
       playSound("black");
     }
@@ -119,15 +121,16 @@ for (let i = 0; i < colorButtons.length; i++) {
         j = 0;
         userPattern = [];
         // add a 1 second delay so the user can clearly see what the next color is
-        setTimeout(function(){
-            console.log('Delay for better user experience.');
-            nextSequence();
-        }, 1000)
-       
+        setTimeout(function () {
+          console.log("Delay for better user experience.");
+          nextSequence();
+        }, 1000);
       }
     } else {
       console.log("game over!");
       // game over; the user's input did not match up with sequence
+      // animate the body's background
+      animateBackground();
       // play appropiate sound to indicate that the user is wrong
       playSound("black");
 
@@ -172,6 +175,18 @@ function animateButton(color) {
       btnClicked.removeClass("pressed");
     }, 250);
   }
+}
+
+// makes the background flash to red when the user does something wrong
+function animateBackground() {
+  // flash the body's background red
+  $("body").css("background-color", "red");
+
+  // wait 0.25 seconds
+  setTimeout(function () {
+    // set the body's background to its original color
+    $("body").css("background-color", "#011F3F");
+  }, 250);
 }
 
 // plays sound based on the color of the button that was clicked
@@ -222,4 +237,3 @@ addEventListener("keydown", function () {
     nextSequence();
   }
 });
-
